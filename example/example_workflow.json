@@ -1,0 +1,378 @@
+{
+  "id": "1a567267-6efc-4686-a672-50b113cc0745",
+  "revision": 0,
+  "last_node_id": 15,
+  "last_link_id": 33,
+  "nodes": [
+    {
+      "id": 3,
+      "type": "SoulXPodcastGenerate",
+      "pos": [
+        1070,
+        1580
+      ],
+      "size": [
+        270,
+        246
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "soulx_model",
+          "name": "soulx_model",
+          "type": "SOULX_MODEL",
+          "link": 7
+        },
+        {
+          "label": "podcast_input",
+          "name": "podcast_input",
+          "type": "PODCAST_INPUT",
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "label": "AUDIO",
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SoulXPodcastGenerate"
+      },
+      "widgets_values": [
+        2036952216,
+        "randomize",
+        0.6,
+        1.25,
+        100,
+        0.9,
+        8,
+        3000
+      ]
+    },
+    {
+      "id": 1,
+      "type": "SoulXPodcastLoader",
+      "pos": [
+        210,
+        1510
+      ],
+      "size": [
+        300,
+        154
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "SOULX_MODEL",
+          "name": "SOULX_MODEL",
+          "type": "SOULX_MODEL",
+          "links": [
+            7,
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SoulXPodcastLoader"
+      },
+      "widgets_values": [
+        "SoulX-Podcast-1.7B-dialect",
+        "hf",
+        false,
+        2657644521,
+        "randomize"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "MarkdownNote",
+      "pos": [
+        360,
+        1240
+      ],
+      "size": [
+        750,
+        160
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        " - [S1]哈喽，AI时代的冲浪先锋们！欢迎收听《AI生活进行时》。啊，一个充满了未来  感，然后，还有一点点，<|laughter|>神经质的播客节目，我是主持人小希。\n - [S2]哎，大家好呀！我是能唠，爱唠，天天都想唠的唠嗑！\n - [S1]最近活得特别赛博朋克哈！以前觉得AI是科幻片里的，<|sigh|> 现在，现在连我妈都用AI写广场舞文案了。\n - [S2]<|laughter|>这个例子很生动啊。是的，特别是生成式AI哈，感觉都要炸了！ 诶，那我们今天就聊聊AI<|breathing|>AI是怎么走进我们的生活的哈！\n - [S1]没错。\n - [S2]<|coughing|>，比如ChatGPT的写作能力啊，我有个程序员朋友，现在用ChatGPT三分钟<|breathing|>三分钟就能写出感情充沛的周报，<|laughter|>把老板都看傻了都。\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 7,
+      "type": "LoadAudio",
+      "pos": [
+        230,
+        1910
+      ],
+      "size": [
+        270,
+        136
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "音频",
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            33
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.66",
+        "Node name for S&R": "LoadAudio"
+      },
+      "widgets_values": [
+        "female_mandarin.wav",
+        null,
+        null
+      ]
+    },
+    {
+      "id": 14,
+      "type": "SoulXPodcastInputParser",
+      "pos": [
+        590,
+        1580
+      ],
+      "size": [
+        420,
+        440
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "soulx_model",
+          "name": "soulx_model",
+          "type": "SOULX_MODEL",
+          "link": 24
+        },
+        {
+          "label": "S1_prompt_audio",
+          "name": "S1_prompt_audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 33
+        },
+        {
+          "label": "S2_prompt_audio",
+          "name": "S2_prompt_audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 32
+        }
+      ],
+      "outputs": [
+        {
+          "label": "PODCAST_INPUT",
+          "name": "PODCAST_INPUT",
+          "type": "PODCAST_INPUT",
+          "links": [
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SoulXPodcastInputParser"
+      },
+      "widgets_values": [
+        "simple",
+        "[S1]各位《巴适得板》的听众些，大家好噻！我是你们主持人晶晶。今儿天气硬是巴适，不晓得大家是在赶路嘛，还是茶都泡起咯，准备跟我们好生摆一哈龙门阵喃？\n[S2]晶晶好哦，大家安逸噻！我是李老倌。你刚开口就川味十足，\"摆龙门阵\"几个字一甩出来，我鼻子头都闻到茶香跟火锅香咯！\n[S1]就是得嘛！李老倌，我前些天带个外地朋友切人民公园鹤鸣茶社坐了一哈。他硬是搞不醒豁，为啥子我们一堆人围到杯茶就可以吹一下午壳子，从隔壁子王嬢嬢娃儿耍朋友，扯到美国大选，中间还掺几盘斗地主。他说我们四川人简直是把\"摸鱼\"刻进骨子里头咯！\n[S2]哈哈，你那个朋友说得倒是有点儿趣，但他莫看到精髓噻。\"摆龙门阵\"哪是摸鱼嘛，这是我们川渝人特有的交际方式，更是一种活法。外省人天天说的\"松弛感\"，根根儿就在这龙门阵里头。今天我们就要好生摆一哈，为啥子四川人活得这么舒坦。就先从茶馆这个老窝子说起，看它咋个成了我们四川人的魂儿！",
+        "{}"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "Text",
+      "pos": [
+        590,
+        2070
+      ],
+      "size": [
+        420,
+        380
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "字符串",
+          "name": "STRING",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "kaytool",
+        "ver": "88d4ad5e270287cba566f1744097d718722eeaa3",
+        "Node name for S&R": "Text"
+      },
+      "widgets_values": [
+        "{\n  \"speakers\": {\n    \"S1\": {\n      \"prompt_text\": \"喜欢攀岩、徒步、滑雪的语言爱好者，以及过两天要带着全部家当去景德镇做陶瓷的白日梦想家。\",\n      \"dialect_prompt\": \"<|Henan|>俺这不是怕恁路上不得劲儿嘛！那景德镇瓷泥可娇贵着哩，得先拿咱河南人这实诚劲儿给它揉透喽。\"\n    },\n    \"S2\": {\n      \"prompt_text\": \"呃，还有一个就是要跟大家纠正一点，就是我们在看电影的时候，尤其是游戏玩家，看电影的时候，在看到那个到西北那边的这个陕北民谣，嗯，这个可能在想，哎，是不是他是受到了黑神话的启发？\",\n      \"dialect_prompt\": \"<|Henan|>恁这想法真闹挺！陕北民谣比黑神话早几百年都有了，咱可不兴这弄颠倒啊，中不？恁这想法真闹挺！那陕北民谣在黄土高坡响了几百年，咋能说是跟黑神话学的咧？咱得把这事儿捋直喽，中不中！\"\n    }\n  },\n  \"text\": [\n    [\"S1\", \"<|Henan|>哎，大家好啊，欢迎收听咱这一期嘞《瞎聊呗，就这么说》，我是恁嘞老朋友，燕子。\"],\n    [\"S2\", \"<|Henan|>大家好，我是老张。燕子啊，今儿瞅瞅你这个劲儿，咋着，是有啥可得劲嘞事儿想跟咱唠唠？\"],\n    [\"S1\", \"<|Henan|>哎哟，老张，你咋恁懂我嘞！我跟你说啊，最近我刷手机，老是刷住些可逗嘞方言视频，特别是咱河南话，咦～我哩个乖乖，一听我都憋不住笑，咋说嘞，得劲儿哩很，跟回到家一样。\"],\n    [\"S2\", \"<|Henan|>你这回可算说到根儿上了！河南话，咱往大处说说，中原官话，它真嘞是有一股劲儿搁里头。它可不光是说话，它脊梁骨后头藏嘞，是咱一整套、鲜鲜活活嘞过法儿，一种活人嘞道理。\"],\n    [\"S1\", \"<|Henan|>活人嘞道理？哎，这你这一说，我嘞兴致“腾”一下就上来啦！觉住咱这嗑儿，一下儿从搞笑视频蹿到文化顶上了。那你赶紧给我白话白话，这里头到底有啥道道儿？我特别想知道——为啥一提起咱河南人，好些人脑子里“蹦”出来嘞头一个词儿，就是实在？这个实在，骨子里到底是啥嘞？ \"]\n  ]\n}"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "PreviewAudio",
+      "pos": [
+        1440,
+        1600
+      ],
+      "size": [
+        270,
+        88
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "音频",
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 4
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.66",
+        "Node name for S&R": "PreviewAudio"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 6,
+      "type": "LoadAudio",
+      "pos": [
+        230,
+        1720
+      ],
+      "size": [
+        270,
+        136
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "音频",
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            32
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.66",
+        "Node name for S&R": "LoadAudio"
+      },
+      "widgets_values": [
+        "male_mandarin.wav",
+        null,
+        null
+      ]
+    }
+  ],
+  "links": [
+    [
+      4,
+      3,
+      0,
+      5,
+      0,
+      "AUDIO"
+    ],
+    [
+      7,
+      1,
+      0,
+      3,
+      0,
+      "SOULX_MODEL"
+    ],
+    [
+      24,
+      1,
+      0,
+      14,
+      0,
+      "SOULX_MODEL"
+    ],
+    [
+      27,
+      14,
+      0,
+      3,
+      1,
+      "PODCAST_INPUT"
+    ],
+    [
+      32,
+      6,
+      0,
+      14,
+      2,
+      "AUDIO"
+    ],
+    [
+      33,
+      7,
+      0,
+      14,
+      1,
+      "AUDIO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9377500000000034,
+      "offset": [
+        -110,
+        -1140
+      ]
+    },
+    "frontendVersion": "1.27.7",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
