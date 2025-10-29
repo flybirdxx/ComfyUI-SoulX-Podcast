@@ -32,6 +32,8 @@ librosa
 scipy
 ```
 
+> **⚠️ 重要注意事项**：本项目需要 `transformers==4.57.1`，请谨慎安装。其他版本的 transformers 可能会导致兼容性问题。
+
 ### 模型准备
 
 模型文件需要放置在 ComfyUI 的标准模型目录下：
