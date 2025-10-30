@@ -183,6 +183,11 @@ class SoulXPodcastInputParser:
         dialogue_script: str = "",
         json_config: str = "{}",
     ):
+        DEFAULT_PROMPTS = {
+            "S1": "喜欢攀岩、徒步、滑雪的语言爱好者，以及过两天要带着全部家当去景德镇做陶瓷的白日梦想家。",
+            "S2": "呃，还有一个就是要跟大家纠正一点，就是我们在看电影的时候，尤其是游戏玩家，看电影的时候，在看到那个到西北那边的这个陕北民谣，嗯，这个可能在想，哎，是不是他是受到了黑神话的启发？"
+        }
+        
         config = soulx_model["config"]
         tokenizer = soulx_model["tokenizer"]
         spk_model = soulx_model["spk_model"]
@@ -219,16 +224,11 @@ class SoulXPodcastInputParser:
             
             for spk_name in json_speakers_data:
                 if audio_inputs.get(spk_name) is not None:
-                    prompt_text = parsed_script_texts.get(spk_name, "")
-                    
+                    # 优先使用json中的prompt_text（如有）
+                    prompt_text = json_speakers_data[spk_name].get("prompt_text", "")
+                    # 没有就用默认，不再自动抽取
                     if not prompt_text:
-                        prompt_text = json_speakers_data[spk_name].get("prompt_text", "")
-                        
-                        if not prompt_text:
-                            dialect_prompt = json_speakers_data[spk_name].get("dialect_prompt", "")
-                            if dialect_prompt:
-                                prompt_text = self._extract_text_from_dialect(dialect_prompt)
-                    
+                        prompt_text = DEFAULT_PROMPTS.get(spk_name, "")
                     if prompt_text:
                         speakers_data[spk_name] = {
                             "prompt_audio": audio_inputs[spk_name],
@@ -237,12 +237,10 @@ class SoulXPodcastInputParser:
                         }
                     else:
                         raise ValueError(
-                            f"Audio for {spk_name} is provided, but cannot extract prompt text!\n"
-                            f"Please ensure one of the following conditions is met:\n"
-                            f"- dialogue_script contains dialogue for {spk_name} (system will automatically extract the first sentence)\n"
-                            f"- JSON config for {spk_name} contains 'prompt_text' or 'dialect_prompt' field"
+                            f"Audio for {spk_name} is provided, but cannot extract prompt text! Please set it or check config."
                         )
         else:
+            # simple模式
             speakers_data = {}
             
             parsed_script_texts = {}
@@ -256,34 +254,21 @@ class SoulXPodcastInputParser:
                 except Exception:
                     pass
             
+            # prompt_text 只用于音色克隆，不参与播客内容生成。
             if S1_prompt_audio is not None:
-                if "S1" in parsed_script_texts:
-                    prompt_text = parsed_script_texts["S1"]
-                    speakers_data["S1"] = {
-                        "prompt_audio": S1_prompt_audio,
-                        "prompt_text": prompt_text,
-                        "dialect_prompt": ""
-                    }
-                else:
-                    raise ValueError(
-                        f"S1 audio is provided, but S1 dialogue content not found in dialogue_script!\n"
-                        f"Please include S1 dialogue in dialogue_script (system will automatically extract the first sentence as prompt text)\n"
-                        f"Example:\n[S1] Hello there, Xiaoxi.\n[S2] Hello, Nenglao!"
-                    )
-            
+                prompt_text = DEFAULT_PROMPTS["S1"]
+                speakers_data["S1"] = {
+                    "prompt_audio": S1_prompt_audio,
+                    "prompt_text": prompt_text,
+                    "dialect_prompt": ""
+                }
             if S2_prompt_audio is not None:
-                if "S2" in parsed_script_texts:
-                    prompt_text = parsed_script_texts["S2"]
-                    speakers_data["S2"] = {
-                        "prompt_audio": S2_prompt_audio,
-                        "prompt_text": prompt_text,
-                        "dialect_prompt": ""
-                    }
-                else:
-                    raise ValueError(
-                        f"S2 audio is provided, but S2 dialogue content not found in dialogue_script!\n"
-                        f"Please include S2 dialogue in dialogue_script (system will automatically extract the first sentence as prompt text)"
-                    )
+                prompt_text = DEFAULT_PROMPTS["S2"]
+                speakers_data["S2"] = {
+                    "prompt_audio": S2_prompt_audio,
+                    "prompt_text": prompt_text,
+                    "dialect_prompt": ""
+                }
         
         if not speakers_data:
             raise ValueError(
@@ -296,6 +281,7 @@ class SoulXPodcastInputParser:
         if not dialogue_script:
             raise ValueError("dialogue_script cannot be empty! Please enter a dialogue script, format: [S1] First sentence\n[S2] Second sentence")
         
+        # 下方维持不变，始终用dialogue_script主流程
         text_list, spk_list = self._parse_dialogue_script(dialogue_script)
         
         used_spk_ids = set(spk_list)
