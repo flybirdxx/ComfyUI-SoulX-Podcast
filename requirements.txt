@@ -1,0 +1,8 @@
+s3tokenizer
+diffusers
+torch
+transformers==4.57.1
+onnxruntime
+einops
+librosa
+scipy
