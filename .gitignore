@@ -45,7 +45,7 @@ Desktop.ini
 *.onnx
 *.safetensors
 *.ckpt
-models/
+
 
 # 但保留示例目录下的音频文件
 !example/**/*.wav
