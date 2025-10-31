@@ -256,7 +256,7 @@ S1 你好  # ❌ 缺少方括号
 
 ## 🙏 致谢
 
-- [SoulX-Podcast](https://github.com/...) - 原始项目
+- [SoulX-Podcast](https://github.com/Soul-AILab/SoulX-Podcast) - 原始项目
 - ComfyUI 社区
 
 ---
