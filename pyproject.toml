@@ -1,0 +1,16 @@
+[project]
+name = "soulx-podcast"
+description = ""
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["s3tokenizer", "diffusers", "torch", "transformers==4.57.1", "onnxruntime", "einops", "librosa", "scipy"]
+
+[project.urls]
+Repository = "https://github.com/flybirdxx/ComfyUI-SoulX-Podcast"
+#  Used by Comfy Registry https://registry.comfy.org
+
+[tool.comfy]
+PublisherId = "flybirdxx"
+DisplayName = "ComfyUI-SoulX-Podcast"
+Icon = ""
+includes = []
