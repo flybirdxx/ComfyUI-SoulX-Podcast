@@ -337,10 +337,6 @@ class SoulXPodcastInputParser:
                     raise ValueError(f"Invalid audio dictionary format, missing 'waveform' or 'sample_rate': {prompt_audio.keys()}")
             elif isinstance(prompt_audio, str):
                 audio_tensor, sample_rate = torchaudio.load(prompt_audio)
-                if audio_tensor.dim() == 2:
-                    audio_tensor = audio_tensor[0] if audio_tensor.shape[0] > 1 else audio_tensor.squeeze(0)
-                else:
-                    audio_tensor = audio_tensor.squeeze()
             elif isinstance(prompt_audio, tuple) or isinstance(prompt_audio, list):
                 if len(prompt_audio) >= 2:
                     audio_tensor, sample_rate = prompt_audio[0], prompt_audio[1]
@@ -356,15 +352,27 @@ class SoulXPodcastInputParser:
                 raise ValueError(f"Invalid sample rate type, expected int/float, but got: {type(sample_rate)}")
             sample_rate = int(sample_rate)
             
-            if audio_tensor.dim() == 2:
-                audio_tensor = audio_tensor[0] if audio_tensor.shape[0] > 1 else audio_tensor.squeeze(0)
-            elif audio_tensor.dim() == 1:
-                pass
-            else:
-                audio_tensor = audio_tensor.squeeze()
+            # Normalize audio tensor to 1D: [samples]
+            # Handle various input shapes: [channels, samples], [1, samples], [samples], [1, channels, samples], etc.
+            original_shape = audio_tensor.shape
+            while audio_tensor.dim() > 1:
+                if audio_tensor.dim() == 2:
+                    # For shape [channels, samples] or [1, samples]
+                    if audio_tensor.shape[0] == 1:
+                        # Mono audio with batch dimension: [1, samples] -> [samples]
+                        audio_tensor = audio_tensor.squeeze(0)
+                    else:
+                        # Multi-channel audio: [channels, samples] -> take first channel [samples]
+                        audio_tensor = audio_tensor[0]
+                else:
+                    # For 3D+ tensors, squeeze or take first element
+                    audio_tensor = audio_tensor.squeeze()
+                    # If still not 1D after squeeze, take first element along first dimension
+                    if audio_tensor.dim() > 1:
+                        audio_tensor = audio_tensor[0]
             
             if audio_tensor.dim() != 1:
-                raise ValueError(f"Invalid audio tensor dimensions: {audio_tensor.shape}")
+                raise ValueError(f"Invalid audio tensor dimensions after processing: {audio_tensor.shape} (original: {original_shape})")
             
             if sample_rate != 16000:
                 resampler = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=16000)
